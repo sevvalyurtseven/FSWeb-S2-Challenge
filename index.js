@@ -100,14 +100,20 @@ function cumleKur(
 /* (Oto test yok) cumleKur fonksiyonuna yalnızca 1 parametre göndererek "Hello World!" stringini elde edin, 
 sonucu konsolde gözlemleyin */
 
+console.log(cumleKur("Hello World!"));
+
 /* (Oto test yok) cumleKur fonksiyonuna yalnızca 2 parametre göndererek "Hello World!" stringini elde edin, 
 sonucu konsolde gözlemleyin */
+
+console.log(cumleKur("Hello ", "World!"));
 
 /* (Oto test var) cumleKur fonksiyonuna 5 parametre göndererek "Ben iyi bir yazılımcı olacağım!" stringini 
 elde edin, sonucu `bircumle` değişkenine atayın ve konsolde gözlemleyin */
 var bircumle;
 
-/* kodlar buraya */
+var bircumle = cumleKur("Ben", " iyi", " bir", " yazilimci", " olacağım!");
+
+console.log(bircumle);
 
 //		Sayfanın en üstünde global olarak tanımlanmış `cumleler` adında bir dizi bulunmaktadır. Bu dizinin
 // içinde en çok 5 en az 1 adet string bulunan diziler bulunmaktadır.Aşağıdaki görevlerde aksi
@@ -128,9 +134,26 @@ var bircumle;
 			5. Oluşturulan yeni dizi döndürülecek.
 	*/
 
-function cumlelereDonustur(/* kodlar buraya */) {
-  /* kodlar buraya */
+
+//Not: map yontemi dizinin her ogesini alir, dönüstürür ve yeni bir dizi olusturur.
+
+//Not: join yontemi dizi icindeki ogeleri belirtilen ayracla birlestirerek bir string yapar.
+
+function cumlelereDonustur(cumleler, ayrac = ",") {
+
+  const yeniCumleler = []; //olusturulan yeni cumleler buraya atilcak.
+
+  cumleler.map(function(kelimeler){
+    const cumle = kelimeler.join(ayrac); //kelimelerin cumleleri birlestirildi ve , ile ayrildi
+
+    yeniCumleler.push(cumle); //yeni cumleler bos dizimize eklendi
+  });
+
+  return yeniCumleler;
+   
 }
+
+console.log("Gorev 1:", cumlelereDonustur(cumleler, " "));
 
 /* GÖREV 2:
 		paragrafOlustur fonksiyonuna aşağıdakileri uygulayın.
@@ -145,16 +168,25 @@ function cumlelereDonustur(/* kodlar buraya */) {
 			6. Oluşturulan paragraf döndürülecek
 	*/
 
-function paragrafOlustur(/* kodlar buraya */) {
-  /* kodlar buraya */
+function paragrafOlustur(cumleler, cumleKur, cumlelereDonustur) {
+  const cumleDizisi = cumlelereDonustur(cumleler, " ");
+  const paragraf = cumleKur(cumleDizisi[1], cumleDizisi[3], cumleDizisi[5], cumleDizisi[7], cumleDizisi[9]);
+  return paragraf;
 }
+
+console.log ("GOREV 2:", paragrafOlustur(cumleler, cumleKur, cumlelereDonustur));
+
 
 /* 	GÖREV 3:
 		Yukarıda isimleri sebzeler ve meyveler olan 2 dizi bulunmaktadır. Bu dizileri kullanarak aşağıdaki görevleri tamamlayın.
 			3a. meyveler dizisinin ilk ve son elemanlarını diziden çıkartın. (.pop ve .shift metodlarını kullanın)
  */
 //3a çözümü
-/* kodlar buraya */
+
+meyveler.shift() //Ilk elemani cikardik
+meyveler.pop() //Son elemani cikardik
+
+console.log("3A Cevabi:", meyveler);
 
 /* 			3b.  Bir tavşan ve bir kirpi arkadaşlar sebzeler dizimizin peşine düştü. Tavşan => 🐇 , Kirpi=> 🦔 , 
 Tavşanla kirpi sebzeleri ele geçirmek için bir plan kurdular. Tavşan diziye önden saldıracak, kirpi ise 
@@ -162,15 +194,24 @@ arkalarından dolaşacak. Varsayalım ki arkadaşların planları başarılı ol
 Kirpiyi dizinin son elemanına ekleyin 🦔
  */
 //3b çözümü
-/* kodlar buraya */
+
+sebzeler.unshift("🐇") //Tavsani basa ekledik
+sebzeler.push("🦔")  //Kirpiyi sona ekledik
+
+console.log("3B Cevabi:", sebzeler);
 
 /* 			3c. manav isminde bir dizi oluşturun.`meyveler` dizisi ilk elemanlara, `sebzeler` dizisi son 
 elemanlara denk gelecek şekilde, iki diziyi birleştirip sonucu manav dizisine aktarın. (.concat metodu)
  */
 //3c çözümü
-/* kodlar buraya */
 
-var manav;
+//Not: concat metodu bir veya daha fazla dizi veya dizi benzeri nesneyi bir araya getirerek yeni bir dizi oluşturur.
+
+var manav = []; //manav isminde bos bir dizi olusturduk.
+
+manav = meyveler.concat(sebzeler);
+
+console.log("Manav Dizisi", manav);
 
 /* 	GÖREV 4:
 		Yeni kurulmuş bir mesajlaşma startup firması atılan mesajları emojilerle zenginleştirmek istiyor. 
@@ -189,9 +230,26 @@ var manav;
 			4. elde edilen string döndürülecek
  */
 
-function emojileriDonustur(/* kodlar buraya */) {
-  /* kodlar buraya */
+//Not: .replaceAll yöntemi belirli bir deseni bulup değiştirmemize olanak tanır. Burada, büyük ve küçük harf duyarlılığını göz önünde bulundurarak dönüşüm yapmalıyız.
+
+//Not: split metodu bir stringi belirli bir ayırıcıya (separator) göre böler ve bu ayırıcıya göre parçalara ayırarak bir dizi (array) oluşturur. Bu metot, stringi parçalara bölerek verileri daha kolay işlemek veya düzenlemek için kullanılır.
+
+//Not: join metodu, bir dizi içindeki öğeleri birleştirerek yeni bir string oluşturur. Bu metot, özellikle bir diziyi tek bir string haline getirmek istediğinizde veya belirli bir ayırıcı ile birleştirilmiş bir metin elde etmek istediğinizde kullanılır.
+
+function emojileriDonustur(mesaj, emojiler) {
+  for(let sembol in emojiler) { //emojiler nesnesindeki sembollere eristik.
+
+const sembolBuyuk = sembol.toUpperCase(); // Sembolü büyük harf yap
+const sembolKucuk = sembol.toLowerCase(); // Sembolü kücük harf yap
+
+mesaj = mesaj.split(sembolBuyuk).join(emojiler[sembol]); //Buyuk harfli sembollerin yerine emojileri koy
+mesaj = mesaj.split(sembolKucuk).join(emojiler[sembol]); //Kucuk harfli sembollerin yerine emojileri koy
 }
+return mesaj;
+}
+
+console.log("Gorev 4:", emojileriDonustur(" Selam :D , Merhaba :d", emojiler));
+
 
 /*  Bu satırın aşağısındaki kodları lütfen değiştirmeyin  */
 function sa() {
