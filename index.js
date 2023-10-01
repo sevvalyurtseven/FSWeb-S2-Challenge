@@ -111,7 +111,7 @@ console.log(cumleKur("Hello ", "World!"));
 elde edin, sonucu `bircumle` değişkenine atayın ve konsolde gözlemleyin */
 var bircumle;
 
-var bircumle = cumleKur("Ben", " iyi", " bir", " yazilimci", " olacağım!");
+var bircumle = cumleKur("Ben", " iyi", " bir", " yazılımcı", " olacağım!");
 
 console.log(bircumle);
 
