@@ -134,26 +134,15 @@ console.log(bircumle);
 			5. Oluşturulan yeni dizi döndürülecek.
 	*/
 
-
 //Not: map yontemi dizinin her ogesini alir, dönüstürür ve yeni bir dizi olusturur.
 
 //Not: join yontemi dizi icindeki ogeleri belirtilen ayracla birlestirerek bir string yapar.
 
-function cumlelereDonustur(cumleler, ayrac = ",") {
-
-  const yeniCumleler = []; //olusturulan yeni cumleler buraya atilcak.
-
-  cumleler.map(function(kelimeler){
-    const cumle = kelimeler.join(ayrac); //kelimelerin cumleleri birlestirildi ve , ile ayrildi
-
-    yeniCumleler.push(cumle); //yeni cumleler bos dizimize eklendi
-  });
-
-  return yeniCumleler;
-   
+function cumlelereDonustur(cumlelerDizisi, ayrac = ",") {
+  return cumlelerDizisi.map((cumle) => cumle.join(ayrac));
 }
 
-console.log("Gorev 1:", cumlelereDonustur(cumleler, " "));
+console.log("GÖREV 1:", cumlelereDonustur(cumleler, " "));
 
 /* GÖREV 2:
 		paragrafOlustur fonksiyonuna aşağıdakileri uygulayın.
@@ -168,14 +157,20 @@ console.log("Gorev 1:", cumlelereDonustur(cumleler, " "));
 			6. Oluşturulan paragraf döndürülecek
 	*/
 
-function paragrafOlustur(cumleler, cumleKur, cumlelereDonustur) {
-  const cumleDizisi = cumlelereDonustur(cumleler, " ");
-  const paragraf = cumleKur(cumleDizisi[1], cumleDizisi[3], cumleDizisi[5], cumleDizisi[7], cumleDizisi[9]);
-  return paragraf;
+function paragrafOlustur(
+  cumlelerDizisi,
+  cumleKurCallback,
+  cumlelereDonusturCallback
+) {
+  const cumleOlustur = cumlelereDonusturCallback(cumlelerDizisi, " ");
+
+  const paragrafDizisi = cumleOlustur.filter((cumle, index) => {
+    return [1, 3, 5, 7, 9].includes(index);
+  });
+  return cumleKurCallback(...paragrafDizisi);
 }
 
-console.log ("GOREV 2:", paragrafOlustur(cumleler, cumleKur, cumlelereDonustur));
-
+console.log("GOREV 2:", paragrafOlustur(cumleler, cumleKur, cumlelereDonustur));
 
 /* 	GÖREV 3:
 		Yukarıda isimleri sebzeler ve meyveler olan 2 dizi bulunmaktadır. Bu dizileri kullanarak aşağıdaki görevleri tamamlayın.
@@ -183,10 +178,10 @@ console.log ("GOREV 2:", paragrafOlustur(cumleler, cumleKur, cumlelereDonustur))
  */
 //3a çözümü
 
-meyveler.shift() //Ilk elemani cikardik
-meyveler.pop() //Son elemani cikardik
+meyveler.shift(); //Ilk elemani cikardik
+meyveler.pop(); //Son elemani cikardik
 
-console.log("3A Cevabi:", meyveler);
+console.log("GÖREV 3A:", meyveler);
 
 /* 			3b.  Bir tavşan ve bir kirpi arkadaşlar sebzeler dizimizin peşine düştü. Tavşan => 🐇 , Kirpi=> 🦔 , 
 Tavşanla kirpi sebzeleri ele geçirmek için bir plan kurdular. Tavşan diziye önden saldıracak, kirpi ise 
@@ -195,10 +190,10 @@ Kirpiyi dizinin son elemanına ekleyin 🦔
  */
 //3b çözümü
 
-sebzeler.unshift("🐇") //Tavsani basa ekledik
-sebzeler.push("🦔")  //Kirpiyi sona ekledik
+sebzeler.unshift("🐇"); //Tavsani basa ekledik
+sebzeler.push("🦔"); //Kirpiyi sona ekledik
 
-console.log("3B Cevabi:", sebzeler);
+console.log("GÖREV 3B:", sebzeler);
 
 /* 			3c. manav isminde bir dizi oluşturun.`meyveler` dizisi ilk elemanlara, `sebzeler` dizisi son 
 elemanlara denk gelecek şekilde, iki diziyi birleştirip sonucu manav dizisine aktarın. (.concat metodu)
@@ -211,7 +206,7 @@ var manav = []; //manav isminde bos bir dizi olusturduk.
 
 manav = meyveler.concat(sebzeler);
 
-console.log("Manav Dizisi", manav);
+console.log("GÖREV 3C - Manav Dizisi", manav);
 
 /* 	GÖREV 4:
 		Yeni kurulmuş bir mesajlaşma startup firması atılan mesajları emojilerle zenginleştirmek istiyor. 
@@ -236,20 +231,24 @@ console.log("Manav Dizisi", manav);
 
 //Not: join metodu, bir dizi içindeki öğeleri birleştirerek yeni bir string oluşturur. Bu metot, özellikle bir diziyi tek bir string haline getirmek istediğinizde veya belirli bir ayırıcı ile birleştirilmiş bir metin elde etmek istediğinizde kullanılır.
 
-function emojileriDonustur(mesaj, emojiler) {
-  for(let sembol in emojiler) { //emojiler nesnesindeki sembollere eristik.
+function emojileriDonustur(mesaj, emojilerNesnesi) {
+  let emojiliMesaj = mesaj;
 
-const sembolBuyuk = sembol.toUpperCase(); // Sembolü büyük harf yap
-const sembolKucuk = sembol.toLowerCase(); // Sembolü kücük harf yap
+  for (let sembol in emojilerNesnesi) {
+    //emojiler nesnesindeki sembollere eristik.
+    console.log(`${sembol} : ${emojilerNesnesi[sembol]}`);
 
-mesaj = mesaj.split(sembolBuyuk).join(emojiler[sembol]); //Buyuk harfli sembollerin yerine emojileri koy
-mesaj = mesaj.split(sembolKucuk).join(emojiler[sembol]); //Kucuk harfli sembollerin yerine emojileri koy
+    emojiliMesaj = emojiliMesaj.replaceAll(sembol, emojilerNesnesi[sembol]);
+
+    emojiliMesaj = emojiliMesaj.replaceAll(
+      sembol.toUpperCase(),
+      emojilerNesnesi[sembol]
+    );
+  }
+  return emojiliMesaj;
 }
-return mesaj;
-}
 
-console.log("Gorev 4:", emojileriDonustur(" Selam :D , Merhaba :d", emojiler));
-
+console.log("GÖREV 4:", emojileriDonustur(" Selam :D , Merhaba :d", emojiler));
 
 /*  Bu satırın aşağısındaki kodları lütfen değiştirmeyin  */
 function sa() {
